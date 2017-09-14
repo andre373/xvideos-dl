@@ -11,7 +11,6 @@ try:
     from colorama import *
     init(autoreset=True)
 except:
-
     print("NECESSÁRIO INSTALAÇÃO DE MODULO EXTERNO")
     os.system('pip3 install colorama')
     from colorama import *
@@ -29,6 +28,14 @@ except:
     print(Fore.WHITE_EX+Style.BRIGHT+'REQUESTS INSTALADO COM SUCESSO!')
     import requests
 
+def main():
+
+     banner()
+     if conection() == True:
+        verifica_url()
+     else:
+         print(Fore.WHITE + Style.BRIGHT +"Sem Conexão com a internet")
+
 def banner ():
     print(Fore.LIGHTCYAN_EX + Style.BRIGHT +
     """    ####################################################################
@@ -41,14 +48,6 @@ def banner ():
     ####################################################################\n""" )
     time.sleep(2)
     os.system('clear')
-
-def main():
-    
-     banner()
-     if conection() == True:
-        verifica_url()
-     else:
-         print(Fore.WHITE + Style.BRIGHT +"Sem Conexão com a internet")
 
 def conection():
     print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
@@ -68,14 +67,10 @@ def conection():
     return False
 
 def download(link, title):
-
     a = link
     tit = title
-
     user = os.path.expanduser('~')
     os.chdir('%s/Downloads'%user)
-    
-    ##########################
     print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
     print(Fore.WHITE + Style.BRIGHT +'BAIXANDO O ARQUIVO - %s'%tit)
     print(Fore.WHITE + Style.BRIGHT +"AGUARDE!!!")
@@ -119,7 +114,7 @@ def verifica_url():
 
     except:
         print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
-        print(Fore.WHITE + Style.BRIGHT +"COMANDO >> ./xvideos-dl LINK_DO_VIDEO")
+        print(Fore.YELLOW + Style.BRIGHT +"COMANDO >> ./xvideos-dl LINK_DO_VIDEO")
         print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
 
 def link(arg):
