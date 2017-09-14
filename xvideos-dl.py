@@ -1,48 +1,58 @@
 #!/usr/bin/python3
-import time, os
 
-print("="*60)
-print('É NECESSÁRIO TER O MODULO | REQUESTS | INSTALADO\n >> COMANDO PARA INSTALAR >> pip3 install requests')
-print("="*60)
-time.sleep(5)
-os.system('clear')
-
-import requests
 import socket
 import re
 import urllib
 import sys
+import os
+import time
+
+try:
+    from colorama import *
+    init(autoreset=True)
+except:
+
+    print("NECESSÁRIO INSTALAÇÃO DE MODULO EXTERNO")
+    os.system('pip3 install colorama')
+    from colorama import *
+    init(autoreset=True)
+    print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
+    print(Fore.WHITE + Style.BRIGHT + "COLORAMA INSTALADO COM SUCESSO")
+
+try:
+    import requests
+except:
+    print(Fore.LIGHTCYAN_EX +Style.BRIGHT+'='*30)
+    print(Fore.WHITE+Style.BRIGHT+'INSTALANDO REQUESTS')
+    print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' *30)
+    os.system('pip3 install requests')
+    print(Fore.WHITE_EX+Style.BRIGHT+'REQUESTS INSTALADO COM SUCESSO!')
+    import requests
+
+def banner ():
+    print(Fore.LIGHTCYAN_EX + Style.BRIGHT +
+    """    ####################################################################
+    ##                                                                ##
+    ##              Xvideos-dl | Download sem complicação  ♥          ##
+    ##                                                                ##
+    ##               Feito com ♥ by @ndreh L | 2017.2                 ##
+    ##                   GNU GENERAL PUBLIC LICENSE                   ##
+    ##                                                   Version 1.0  ##
+    ####################################################################\n""" )
+    time.sleep(2)
+    os.system('clear')
 
 def main():
-
-     url = sys.argv[1]
-
-     inicial=['https://www.xnxx.com','https://www.xnxx.com/','www.xnxx.com','xnxx.com','www.xnxx.com/','xnxx.com/',
-     'https://www.xvideos.com','https:www.xvideos.com/','www.xvideos.com','www.xvideos.com/','xvideos.com','xvideos.com']
-        
-     for x in inicial:
-        if x == url:
-            print("Página Inicial")
-            exit(0)
-
+    
+     banner()
      if conection() == True:
-        try:
-            xn ='xnxx'
-            xv = 'xvideos'
-            if xn in url or xv in url:
-                link(url)
-            else:
-                print("URL NÃO ACEITA")
-
-        except IndexError:
-            print("DIGITE UM ARGUMENTO")
+        verifica_url()
      else:
-         print("Sem Conexão com a internet")
+         print(Fore.WHITE + Style.BRIGHT +"Sem Conexão com a internet")
 
 def conection():
-
-    print("="*30)
-    print("TESTANDO CONEXÃO")
+    print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
+    print(Fore.WHITE+Style.BRIGHT+"TESTANDO CONEXÃO")
     confiaveis = ['www.google.com', 'www.yahoo.com', 'www.bb.com.br']
     for host in confiaveis:
         a = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -56,6 +66,61 @@ def conection():
             pass
         a.close()
     return False
+
+def download(link, title):
+
+    a = link
+    tit = title
+
+    user = os.path.expanduser('~')
+    os.chdir('%s/Downloads'%user)
+    
+    ##########################
+    print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
+    print(Fore.WHITE + Style.BRIGHT +'BAIXANDO O ARQUIVO - %s'%tit)
+    print(Fore.WHITE + Style.BRIGHT +"AGUARDE!!!")
+    print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
+    urllib.request.urlretrieve(a, '%s'%tit)
+    print(Fore.WHITE + Style.BRIGHT +"DOWNLOAD CONCLUIDO COM SUCESSO!\nSALVO NA PASTA DOWNLOAD")
+    print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
+
+def verifica_url():
+    try:
+        url = sys.argv[1]
+
+        if 'http://' not in url:
+            url = 'http://'+url
+
+        inicial = ['https://www.xnxx.com', 'https://www.xnxx.com/', 'www.xnxx.com', 'xnxx.com', 'www.xnxx.com/',
+        'xnxx.com/','https://www.xvideos.com', 'https:www.xvideos.com/', 'www.xvideos.com', 'www.xvideos.com/',
+        'xvideos.com', 'xvideos.com']
+
+        for x in inicial:
+            if x == url:
+                print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
+                print(Fore.WHITE + Style.BRIGHT + "Página Inicial")
+                exit(0)
+
+        xn = 'xnxx'
+        xv = 'xvideos'
+        code = requests.get(url)
+
+        if code.status_code == 404:
+            print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
+            print(Fore.WHITE + Style.BRIGHT +'VÍDEO NAO ENCONTRADO')
+            exit(0)
+
+        elif xn in url or xv in url:
+            link(url)
+
+        else:
+            print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
+            print(Fore.WHITE + Style.BRIGHT +"URL NÃO ACEITA")
+
+    except:
+        print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
+        print(Fore.WHITE + Style.BRIGHT +"COMANDO >> ./xvideos-dl LINK_DO_VIDEO")
+        print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
 
 def link(arg):
 
@@ -72,25 +137,7 @@ def link(arg):
         titulo.append(x)
     download(links[0], titulo[0])
 
-def download(link, title):
-
-    a = link
-    tit = title
-    ##########################
-    #SALVAR NA PASTA DOWNLOAD#
-    ##########################
-    user = os.path.expanduser('~')
-    os.chdir('%s/Downloads'%user)
-    
-    ##########################
-    print("="*30)
-    print('BAIXANDO O ARQUIVO - %s'%tit)
-    print("AGUARDE!!!")
-    print("=" * 30)
-    urllib.request.urlretrieve(a, '%s'%tit)
-    print("DOWNLOAD CONCLUIDO COM SUCESSO!\nSALVO NA PASTA DOWNLOAD")
-    print("=" * 30)
-
 if __name__ == '__main__':
     main()
+
 
