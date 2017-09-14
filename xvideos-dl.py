@@ -11,22 +11,14 @@ try:
     from colorama import *
     init(autoreset=True)
 except:
-    print("NECESSÁRIO INSTALAÇÃO DE MODULO EXTERNO")
-    os.system('pip3 install colorama')
-    from colorama import *
-    init(autoreset=True)
-    print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
-    print(Fore.WHITE + Style.BRIGHT + "COLORAMA INSTALADO COM SUCESSO")
+    print("É NECESSÁRIO O MODULO |COLORAMA| INSTALADO!")
+    sys.exit(0)
 
 try:
     import requests
 except:
-    print(Fore.LIGHTCYAN_EX +Style.BRIGHT+'='*30)
-    print(Fore.WHITE+Style.BRIGHT+'INSTALANDO REQUESTS')
-    print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' *30)
-    os.system('pip3 install requests')
-    print(Fore.WHITE_EX+Style.BRIGHT+'REQUESTS INSTALADO COM SUCESSO!')
-    import requests
+    print("É NECESSÁRIO O MODULO |REQUESTS| INSTALADO!")
+    sys.exit(0)
 
 def main():
 
@@ -86,6 +78,7 @@ def verifica_url():
         if 'https://' not in url:
             url = 'https://'+url
 
+
         inicial = ['https://www.xnxx.com', 'https://www.xnxx.com/', 'www.xnxx.com', 'xnxx.com', 'www.xnxx.com/',
         'xnxx.com/','https://www.xvideos.com', 'https:www.xvideos.com/', 'www.xvideos.com', 'www.xvideos.com/',
         'xvideos.com', 'xvideos.com']
@@ -114,7 +107,7 @@ def verifica_url():
 
     except:
         print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
-        print(Fore.YELLOW + Style.BRIGHT +"COMANDO >> ./xvideos-dl LINK_DO_VIDEO")
+        print(Fore.WHITE + Style.BRIGHT +"COMANDO >> ./xvideos-dl LINK_DO_VIDEO")
         print(Fore.LIGHTCYAN_EX + Style.BRIGHT + '=' * 30)
 
 def link(arg):
