@@ -83,7 +83,7 @@ def verifica_url():
     try:
         url = sys.argv[1]
 
-        if 'http://' not in url:
+        if 'https://' not in url:
             url = 'http://'+url
 
         inicial = ['https://www.xnxx.com', 'https://www.xnxx.com/', 'www.xnxx.com', 'xnxx.com', 'www.xnxx.com/',
